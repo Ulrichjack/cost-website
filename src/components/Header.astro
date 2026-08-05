@@ -1,0 +1,70 @@
+---
+import type { Lang } from '../data/i18n';
+import { translations } from '../data/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = translations[lang];
+const base = lang === 'fr' ? '' : '/en';
+const currentPath = Astro.url.pathname;
+const cleanPath = currentPath.replace(/\/+$/, '') || '/';
+const routePath = (path: string) => `${base}${path}` === '/' ? '/' : `${base}${path}`.replace(/\/+$/, '');
+const isRoute = (path: string) => cleanPath === routePath(path);
+const servicesActive = ['/transport-maritime', '/agence-portuaire', '/transit-douane'].some((path) => cleanPath.startsWith(routePath(path)));
+const alternate = lang === 'fr'
+  ? currentPath === '/' ? '/en/' : `/en${currentPath}`
+  : currentPath.replace(/^\/en/, '') || '/';
+---
+
+<header class="main-header">
+  <div class="container header-container">
+    <a href={`${base}/`} class="logo-link" aria-label="Accueil COST">
+      <span class="brand-mark header-brand-mark" aria-hidden="true"><img src="/images/logo.jpg" alt="" /></span>
+      <span class="sr-only">COST SA</span>
+    </a>
+    <nav class="nav-desktop" aria-label="Navigation principale">
+      <ul>
+        <li><a href={`${base}/`} class:list={['nav-link', isRoute('/') && 'is-current']} aria-current={isRoute('/') ? 'page' : undefined}>{t.nav.home}</a></li>
+        <li><a href={`${base}/a-propos`} class:list={['nav-link', isRoute('/a-propos') && 'is-current']} aria-current={isRoute('/a-propos') ? 'page' : undefined}>{t.nav.about}</a></li>
+        <li class:list={['dropdown', servicesActive && 'is-current']}>
+          <a href={`${base}/#services`} class:list={['nav-link', servicesActive && 'is-current']} aria-current={servicesActive ? 'page' : undefined}>{t.nav.services} ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href={`${base}/transport-maritime`}>{t.services.items[0].title}</a></li>
+            <li><a href={`${base}/agence-portuaire`}>{lang === 'fr' ? 'Agence portuaire' : 'Port agency'}</a></li>
+            <li><a href={`${base}/transit-douane`}>{lang === 'fr' ? 'Transit & Douane' : 'Transit & Customs'}</a></li>
+          </ul>
+        </li>
+        <li><a href={`${base}/zones`} class:list={['nav-link', isRoute('/zones') && 'is-current']} aria-current={isRoute('/zones') ? 'page' : undefined}>{t.nav.coverage}</a></li>
+        <li><a href={`${base}/galerie`} class:list={['nav-link', isRoute('/galerie') && 'is-current']} aria-current={isRoute('/galerie') ? 'page' : undefined}>{lang === 'fr' ? 'Galerie' : 'Gallery'}</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a href={alternate} class="lang-switcher" hreflang={lang === 'fr' ? 'en' : 'fr'}><strong>{lang === 'fr' ? 'EN' : 'FR'}</strong></a>
+      <a href={`${base}/contact`} class="btn btn-primary btn-header">{t.nav.contact}</a>
+      <button class="burger-menu" aria-label={t.nav.menuOpen} aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav id="mobile-nav" class="nav-mobile" aria-hidden="true">
+    <ul>
+      <li><a href={`${base}/`} class:list={['mobile-nav-link', isRoute('/') && 'is-current']} aria-current={isRoute('/') ? 'page' : undefined}>{t.nav.home}</a></li>
+      <li><a href={`${base}/a-propos`} class:list={['mobile-nav-link', isRoute('/a-propos') && 'is-current']} aria-current={isRoute('/a-propos') ? 'page' : undefined}>{t.nav.about}</a></li>
+      <li><a href={`${base}/#services`} class:list={['mobile-nav-link', servicesActive && 'is-current']} aria-current={servicesActive ? 'page' : undefined}>{t.nav.services}</a></li>
+      <li><a href={`${base}/zones`} class:list={['mobile-nav-link', isRoute('/zones') && 'is-current']} aria-current={isRoute('/zones') ? 'page' : undefined}>{t.nav.coverage}</a></li>
+      <li><a href={`${base}/galerie`} class:list={['mobile-nav-link', isRoute('/galerie') && 'is-current']} aria-current={isRoute('/galerie') ? 'page' : undefined}>{lang === 'fr' ? 'Galerie' : 'Gallery'}</a></li>
+      <li><a href={alternate} class="lang-switcher-mobile">{t.nav.language}</a></li>
+      <li><a href={`${base}/contact`} class="btn-mobile-cta">{t.nav.contact}</a></li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.burger-menu');
+  const menu = document.querySelector<HTMLElement>('#mobile-nav');
+  button?.addEventListener('click', () => {
+    const opening = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(opening));
+    button.classList.toggle('is-active', opening);
+    menu?.classList.toggle('is-open', opening);
+    menu?.setAttribute('aria-hidden', String(!opening));
+  });
+</script>

@@ -1,0 +1,15 @@
+---
+import type { Lang } from '../data/i18n';
+import { translations } from '../data/i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = translations[lang];
+---
+
+<section class="stats-bar" aria-label="Key figures">
+  <div class="container">
+    <ul class="stats-grid" role="list">
+      {t.stats.map((stat, index) => <li class="reveal" style={`--delay: ${index * 90}ms`}><strong data-counter={/^[0-9]+$/.test(stat.value) ? true : undefined} data-target={/^[0-9]+$/.test(stat.value) ? stat.value : undefined}>{stat.value}</strong><span>{stat.label}</span></li>)}
+    </ul>
+  </div>
+</section>

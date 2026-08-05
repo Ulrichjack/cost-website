@@ -1,0 +1,31 @@
+---
+import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import type { Lang } from '../data/i18n';
+
+interface Props { lang: Lang; title: string; description: string; image?: string; heroImage?: string }
+const { lang, title, description, image, heroImage } = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO title={title} description={description} image={image} lang={lang} />
+    {heroImage && <link rel="preload" as="image" href={heroImage} fetchpriority="high" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="../scripts/main.ts"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">{lang === 'fr' ? 'Aller au contenu' : 'Skip to content'}</a>
+    <slot name="header" />
+    <main id="main-content"><slot /></main>
+    <slot name="footer" />
+  </body>
+</html>

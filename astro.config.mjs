@@ -1,5 +1,5 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  // Configuration basique, la gestion de langue se fait par fichier dynamique
+});

@@ -1,0 +1,39 @@
+---
+import type { Lang } from '../data/i18n';
+import { translations } from '../data/i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = translations[lang];
+
+const icons: Record<string, string> = {
+  ship: '<path d="M3 19c2 1.5 4 1.5 6 0 2 1.5 4 1.5 6 0 2 1.5 4 1.5 6 0"/><path d="m5 16-2-6h18l-2 6"/><path d="M8 10V5h8v5M12 5V2"/>',
+  route: '<circle cx="6" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M8.5 16.5C11 15 10 10 12.5 8.5L15 7"/>',
+  anchor: '<circle cx="12" cy="5" r="2"/><path d="M12 7v14M5 12H2a10 10 0 0 0 20 0h-3M8 21h8"/>',
+  document: '<path d="M6 2h9l4 4v16H6z"/><path d="M14 2v5h5M9 12h7M9 16h7"/>',
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+  cargo: '<path d="M3 7h18v14H3zM3 12h18M8 7v14M16 7v14M8 3h8"/>',
+};
+---
+
+<section class="section services-section" id="services" aria-labelledby="services-title">
+  <div class="container">
+    <header class="section-heading">
+      <div class="reveal">
+        <p class="eyebrow">{t.services.eyebrow}</p>
+        <h2 id="services-title">{t.services.title}</h2>
+      </div>
+      <p class="reveal">{t.services.intro}</p>
+    </header>
+    <ul class="services-grid" role="list">
+      {t.services.items.map((service, index) => (
+        <li class="service-card reveal" style={`--delay: ${index * 70}ms`}>
+          <span class="service-number">0{index + 1}</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[service.icon]} />
+          <h3>{service.title}</h3>
+          <p>{service.description}</p>
+          <a href={service.href}>{t.services.learnMore}<span aria-hidden="true">→</span></a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

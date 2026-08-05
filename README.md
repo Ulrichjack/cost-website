@@ -1,43 +1,50 @@
-# Astro Starter Kit: Minimal
+# COST — Cameroon Oil Shipping & Trading
+
+Site institutionnel bilingue FR/EN construit avec Astro. Le positionnement éditorial actuel est celui d’un partenaire maritime et portuaire spécialisé dans le secteur énergétique, et non celui d’un négociant en matières premières.
+
+## Développement
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
+npm run build
+npm run preview
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Architecture
 
-## 🚀 Project Structure
+- `src/layouts/BaseLayout.astro` : document HTML, SEO, préchargement du hero et structure sémantique.
+- `src/components/` : navigation, footer, en-têtes et modèles de pages réutilisables.
+- `src/data/i18n.ts` : point d’entrée unique des contenus globaux FR/EN.
+- `src/data/translations.ts` : source actuelle des traductions, exposée par `i18n.ts` pour garder les textes centralisés.
+- `src/data/pages.ts` : contenus des pages institutionnelles et des trois pôles métier.
+- `src/pages/` : routes françaises.
+- `src/pages/en/` : routes anglaises correspondantes.
+- `src/styles/global.css` : palette et styles globaux COST.
+- `src/scripts/main.ts` : animations au scroll, compteurs et respect de `prefers-reduced-motion`.
+- `src/data/gallery.ts` : chemins des six images de la galerie.
 
-Inside of your Astro project, you'll see the following folders and files:
+### Ajouter les images de la galerie
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Dépose les fichiers dans `public/images/gallery/` avec ces noms :
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+`01-operations-maritimes.jpg`, `02-escale-portuaire.jpg`, `03-manutention.jpg`, `04-equipe-cost.jpg`, `05-bureaux-douala.jpg`, `06-projets-cemac.jpg`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+La galerie affiche automatiquement la photo si elle existe, sinon elle conserve le placeholder numéroté.
 
-Any static assets, like images, can be placed in the `public/` directory.
+Les six services sont regroupés en trois pôles :
 
-## 🧞 Commands
+1. Transport Maritime & Affrètement
+2. Agence Portuaire & Manutention
+3. Transit & Douane
 
-All commands are run from the root of the project, from a terminal:
+## Informations à confirmer avant publication
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- activité éventuelle d’achat/revente physique de produits pétroliers ;
+- domaine officiel (le code utilise provisoirement `cost-cameroon.com`) ;
+- URL exacte de la page LinkedIn ;
+- descriptions contractuelles et périmètre précis des six services ;
+- photos officielles des opérations, équipes et bureaux ;
+- effectif, année de création et mentions légales complètes.
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Facebook et TikTok utilisent provisoirement l’identifiant public `@cameroonshipping`. LinkedIn n’est pas inclus dans les données structurées tant que son URL n’est pas confirmée.

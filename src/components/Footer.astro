@@ -1,0 +1,57 @@
+---
+import type { Lang } from '../data/i18n';
+import { translations } from '../data/i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = translations[lang];
+const base = lang === 'fr' ? '' : '/en';
+const socialLinks = [
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/share/1CJN8h6WEB/?mibextid=wwXIfr',
+    svg: '<path d="M13.5 8.5V7.2c0-.8.5-1.2 1.3-1.2h1.7V3h-2.3C11.8 3 10 4.6 10 7.1v1.4H8v3h2V21h3.5v-9.5h2.4l.4-3z"/>',
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/camerounoilshippingtrading/about/',
+    svg: '<path d="M6.3 8.8H3.5V21h2.8zM4.9 3.2A1.65 1.65 0 1 0 4.9 6.5 1.65 1.65 0 0 0 4.9 3.2z"/><path d="M11.1 8.8H8.4V21h2.8v-6.2c0-1.6.6-2.7 2.1-2.7 1.3 0 1.8.9 1.8 2.6V21h2.8v-6.9c0-3.3-1.8-4.8-4.2-4.8-1.8 0-2.8 1-3.4 2V8.8z"/>',
+  },
+ 
+];
+---
+
+<footer class="main-footer">
+  <div class="container footer-columns">
+    <div class="footer-brand reveal">
+      <span class="footer-logo brand-mark brand-mark-footer" aria-hidden="true"><img src="/images/logo.jpg" alt="" /></span>
+      <span class="sr-only">COST SA</span>
+      <p>{t.footer.description}</p>
+      <small>Cameroon Oil Shipping &amp; Trading</small>
+    </div>
+    <nav class="footer-links" aria-label={t.footer.navigation}>
+      <h2>{t.footer.navigation}</h2>
+      <a href={`${base}/`}>{t.nav.home}</a>
+      <a href={`${base}/a-propos`}>{t.nav.about}</a>
+      <a href={`${base}/zones`}>{t.nav.coverage}</a>
+      <a href={`${base}/contact`}>{t.nav.contact}</a>
+    </nav>
+    <address class="footer-contact">
+      <h2>{t.footer.office}</h2>
+      <p>{t.footer.address}</p>
+      <a href="tel:+237233420949">{t.footer.phone}</a>
+    </address>
+    <div class="footer-socials reveal">
+      <h2>{lang === 'fr' ? 'Réseaux sociaux' : 'Social media'}</h2>
+      <p class="social-intro">{lang === 'fr' ? 'Suivez nos opérations et nos actualités.' : 'Follow our operations and updates.'}</p>
+      <div class="social-links-grid">
+      {socialLinks.map((link, index) => (
+        <a class="social-link" style={`--delay: ${index * 90}ms`} href={link.href} rel="me noopener noreferrer" target="_blank" aria-label={link.label}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={link.svg} />
+          <span><strong>{link.label}</strong><small>@cameroonshipping</small></span>
+        </a>
+      ))}
+      </div>
+    </div>
+  </div>
+  <div class="container footer-bottom"><p>{t.footer.rights}</p><p>@cameroonshipping</p></div>
+</footer>

@@ -1,0 +1,44 @@
+---
+import type { Lang } from '../data/i18n';
+import { translations } from '../data/i18n';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = translations[lang];
+const service = t.serviceTransport;
+const base = lang === 'fr' ? '' : '/en';
+const sections = [service.shipping, service.chartering];
+---
+
+<BaseLayout lang={lang} title={service.meta.title} description={service.meta.description}>
+  <Header lang={lang} />
+  <main>
+    <section class="service-hero">
+      <div class="container reveal">
+        <p class="eyebrow">{service.hero.eyebrow}</p>
+        <h1>{service.hero.title}</h1>
+        <p>{service.hero.subtitle}</p>
+      </div>
+    </section>
+
+    {sections.map((section, index) => (
+      <section class:list={['section', 'service-detail', index % 2 === 1 && 'service-detail-alt']} id={index === 1 ? (lang === 'fr' ? 'affretement' : 'chartering') : undefined}>
+        <div class="container service-detail-grid">
+          <div class="service-visual zoom-in" aria-hidden="true"><span>0{index + 1}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d={index === 0 ? 'M3 19c2 1.5 4 1.5 6 0 2 1.5 4 1.5 6 0 2 1.5 4 1.5 6 0M5 16l-2-6h18l-2 6M8 10V5h8v5M12 5V2' : 'M4 17h16M6 14l3-8h6l3 8M12 6V2M8 21h8'} /></svg></div>
+          <div class="service-detail-copy reveal">
+            <p class="eyebrow eyebrow-dark">{section.eyebrow}</p>
+            <h2>{section.title}</h2>
+            <p class="lead">{section.text}</p>
+            <ul class="check-list" role="list">{section.bullets.map((bullet) => <li><span aria-hidden="true">✓</span>{bullet}</li>)}</ul>
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <section class="service-page-cta"><div class="container reveal"><h2>{service.cta.title}</h2><a href={`${base}/#contact`} class="button button-gold">{service.cta.button}<span aria-hidden="true">→</span></a></div></section>
+  </main>
+  <Footer lang={lang} />
+</BaseLayout>

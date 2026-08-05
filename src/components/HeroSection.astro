@@ -1,0 +1,26 @@
+---
+import type { Lang } from '../data/i18n';
+import { translations } from '../data/i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = translations[lang];
+const base = lang === 'fr' ? '' : '/en';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="container hero-content">
+    <p class="eyebrow hero-eyebrow">{t.hero.eyebrow}</p>
+    <h1 id="hero-title" class="hero-title">
+      <span>{t.hero.title[0]}</span>
+      <span class="text-gold">{t.hero.title[1]}</span>
+    </h1>
+    <p class="hero-copy hero-subtitle">{t.hero.description}</p>
+    <div class="button-row hero-cta-group">
+      <a href={`${base}/#contact`} class="button button-gold">{t.hero.primary}<span aria-hidden="true">→</span></a>
+      <a href={`${base}/#services`} class="button button-outline">{t.hero.secondary}</a>
+    </div>
+    <p class="hero-badge hero-badge-animate"><span aria-hidden="true">✓</span>{t.hero.badge}</p>
+  </div>
+  <div class="hero-index" aria-hidden="true">01</div>
+</section>

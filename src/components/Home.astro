@@ -1,0 +1,37 @@
+---
+import type { Lang } from '../data/i18n';
+import { translations } from '../data/i18n';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = translations[lang];
+const base = lang === 'fr' ? '' : '/en';
+const groupedServices = lang === 'fr' ? [
+  { title: 'Transport Maritime & Affrètement', text: 'Organisation du transport et recherche du navire adapté à vos opérations.', href: '/transport-maritime', icon: '<path d="M2 21h20M19 15c2-1 3-3 3-5V5h-3v3H5V5H2v5c0 2 1 4 3 5L2 19h20zM12 8v7"/>' },
+  { title: 'Agence Portuaire & Manutention', text: 'Consignation, représentation maritime et aconage de Type B.', href: '/agence-portuaire', icon: '<circle cx="12" cy="5" r="3"/><path d="M12 8v14M5 12H2a10 10 0 0 0 20 0h-3"/>' },
+  { title: 'Transit & Douane', text: 'Formalités douanières et coordination des flux vers la zone CEMAC.', href: '/transit-douane', icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 11l2 2 4-4"/>' },
+] : [
+  { title: 'Maritime Transport & Chartering', text: 'Transport coordination and vessel sourcing for your operations.', href: '/en/transport-maritime', icon: '<path d="M2 21h20M19 15c2-1 3-3 3-5V5h-3v3H5V5H2v5c0 2 1 4 3 5L2 19h20zM12 8v7"/>' },
+  { title: 'Port Agency & Cargo Handling', text: 'Vessel agency, maritime representation and Type B stevedoring.', href: '/en/agence-portuaire', icon: '<circle cx="12" cy="5" r="3"/><path d="M12 8v14M5 12H2a10 10 0 0 0 20 0h-3"/>' },
+  { title: 'Transit & Customs', text: 'Customs formalities and cargo coordination across the CEMAC region.', href: '/en/transit-douane', icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 11l2 2 4-4"/>' },
+];
+---
+
+<BaseLayout lang={lang} title={t.meta.title} description={t.meta.description} heroImage="/images/hero-bg.webp">
+  <Header lang={lang} slot="header" />
+  <section class="hero" style="background-image: linear-gradient(120deg, rgba(13,46,38,.88) 0%, rgba(13,46,38,.55) 55%, rgba(13,46,38,.25) 100%), url('/images/hero-bg.webp');">
+    <div class="container hero-content"><span class="hero-tagline hero-eyebrow">Cameroon Oil Shipping &amp; Trading</span><h1 class="hero-title">{lang === 'fr' ? 'COST — L’excellence maritime et portuaire, au-delà des mers' : 'COST — Maritime and port excellence, beyond the seas'}</h1><p class="hero-subtitle">{lang === 'fr' ? 'Transport maritime, affrètement, consignation de navires et services portuaires en Afrique centrale.' : 'Maritime transport, chartering, vessel agency and port services across Central Africa.'}</p><div class="cta-group hero-cta-group"><a href="#services" class="btn btn-primary">{t.hero.secondary}</a><a href={`${base}/contact`} class="btn btn-secondary">{t.nav.contact}</a></div></div>
+  </section>
+
+  <section class="key-figures"><div class="container figures-grid"><div class="reveal"><span class="figure-num" data-counter data-target="6">6</span><span class="figure-label">{lang === 'fr' ? 'Métiers maritimes' : 'Maritime services'}</span></div><div class="reveal" style="--delay: 90ms"><span class="figure-num">24/7</span><span class="figure-label">{lang === 'fr' ? 'Suivi opérationnel' : 'Operational support'}</span></div><div class="reveal" style="--delay: 180ms"><span class="figure-num" data-counter data-target="3">3</span><span class="figure-label">{lang === 'fr' ? 'Ports stratégiques' : 'Strategic ports'}</span></div></div></section>
+
+  <section id="services" class="services-section"><div class="container"><div class="section-header reveal"><h2>{lang === 'fr' ? 'Nos activités' : 'Our activities'}</h2><div class="accent-line"></div><p>{t.services.intro}</p></div><div class="services-grid services-grid-three stagger-grid">{groupedServices.map((service, index) => <a class="service-card reveal" style={`--delay: ${index * 90}ms`} href={service.href}><div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" set:html={service.icon} /></div><h3>{service.title}</h3><p>{service.text}</p></a>)}</div></div></section>
+
+  <section class="why-section" id="about"><div class="container why-grid"><div class="reveal"><h2>{lang === 'fr' ? 'Pourquoi choisir COST ?' : 'Why choose COST?'}</h2><div class="accent-line accent-left"></div></div><ul class="stagger-grid">{(lang === 'fr' ? ['Expertise maritime et portuaire', 'Présence stratégique à Douala', 'Coordination réactive des escales', 'Réseau de partenaires opérationnels'] : ['Maritime and port expertise', 'Strategic presence in Douala', 'Responsive port call coordination', 'Operational partner network']).map((item, index) => <li class="reveal" style={`--delay: ${index * 70}ms`}><span>✓</span>{item}</li>)}</ul></div></section>
+
+  <section class="zones-preview" id="coverage"><div class="container zones-preview-grid"><div class="reveal"><span class="hero-tagline">{lang === 'fr' ? 'Nos implantations' : 'Our locations'}</span><h2>{lang === 'fr' ? 'Douala, Kribi, Limbé et la zone CEMAC' : 'Douala, Kribi, Limbe and the CEMAC region'}</h2><p>{lang === 'fr' ? 'Une couverture pensée pour relier les ports camerounais aux marchés de l’hinterland.' : 'Coverage designed to connect Cameroonian ports with hinterland markets.'}</p><a href={`${base}/zones`} class="btn btn-primary">{lang === 'fr' ? 'Voir nos zones' : 'View our locations'}</a></div><div class="ports-visual zoom-in" aria-hidden="true"><span>Douala</span><span>Kribi</span><span>Limbé</span><span>CEMAC</span></div></div></section>
+  <Footer lang={lang} slot="footer" />
+</BaseLayout>

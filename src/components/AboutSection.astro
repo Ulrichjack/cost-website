@@ -1,0 +1,26 @@
+---
+import type { Lang } from '../data/i18n';
+import { translations } from '../data/i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = translations[lang];
+---
+
+<section class="section about-section" id="about" aria-labelledby="about-title">
+  <div class="container about-grid">
+    <div class="reveal">
+      <p class="eyebrow eyebrow-dark">{t.about.eyebrow}</p>
+      <h2 id="about-title">{t.about.title}</h2>
+      <p class="lead">{t.about.text}</p>
+      <ul class="check-list" role="list">
+        {t.about.points.map((point) => <li><span aria-hidden="true">✓</span>{point}</li>)}
+      </ul>
+    </div>
+    <aside class="about-card zoom-in">
+      <span class="about-card-number" aria-hidden="true">24</span>
+      <span class="about-card-unit" aria-hidden="true">/ 7</span>
+      <h3>{t.about.cardTitle}</h3>
+      <p>{t.about.cardText}</p>
+    </aside>
+  </div>
+</section>

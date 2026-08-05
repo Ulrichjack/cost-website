@@ -1,0 +1,40 @@
+---
+import type { Lang } from '../data/i18n';
+import type { ServicePageKey } from '../data/pages';
+import { getPageContent } from '../data/pages';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import PageHeader from './PageHeader.astro';
+
+interface Props { lang: Lang; page: ServicePageKey }
+const { lang, page } = Astro.props;
+const content = getPageContent(lang);
+const service = content.servicePages[page];
+const base = lang === 'fr' ? '' : '/en';
+---
+
+<BaseLayout lang={lang} title={`${service.title} | COST SA`} description={service.description}>
+  <Header lang={lang} slot="header" />
+  <PageHeader title={service.title} description={service.description} eyebrow={content.labels.services} />
+
+  <section class="content-section">
+    <div class="container narrow-content reveal"><p class="intro-copy">{service.intro}</p></div>
+  </section>
+
+  <section class="service-blocks-section">
+    <div class="container service-blocks-grid">
+      {service.blocks.map((block, index) => (
+        <article class="service-info-card reveal" style={`--delay: ${index * 90}ms`}>
+          <span class="card-index">0{index + 1}</span>
+          <h2>{block.title}</h2>
+          <p>{block.text}</p>
+          <ul>{block.bullets.map((bullet) => <li>{bullet}</li>)}</ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="page-cta"><div class="container reveal"><h2>{content.labels.consultation}</h2><a href={`${base}/contact`} class="btn btn-primary">{content.labels.contact}</a></div></section>
+  <Footer lang={lang} slot="footer" />
+</BaseLayout>

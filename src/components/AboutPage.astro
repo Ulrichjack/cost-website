@@ -1,0 +1,18 @@
+---
+import type { Lang } from '../data/i18n';
+import { getPageContent } from '../data/pages';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import PageHeader from './PageHeader.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const page = getPageContent(lang).about;
+---
+
+<BaseLayout lang={lang} title={`${page.title} | COST SA`} description={page.description}>
+  <Header lang={lang} slot="header" />
+  <PageHeader title={page.title} description={page.description} />
+  <section class="content-section"><div class="container two-column-content"><div><h2>{page.heading}</h2>{page.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</div><aside class="values-panel"><h2>{lang === 'fr' ? 'Nos valeurs' : 'Our values'}</h2><ul>{page.values.map((value) => <li>{value}</li>)}</ul></aside></div></section>
+  <Footer lang={lang} slot="footer" />
+</BaseLayout>

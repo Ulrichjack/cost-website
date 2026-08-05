@@ -1,0 +1,48 @@
+---
+import type { Lang } from '../data/i18n';
+interface Props { title: string; description: string; image?: string; canonicalURL?: string; lang?: Lang }
+const SITE_URL = 'https://www.cost-cameroon.com';
+const { title, description, image = '/images/hero-bg.webp', canonicalURL = new URL(Astro.url.pathname, SITE_URL).href, lang = 'fr' } = Astro.props;
+const absoluteImageUrl = new URL(image, SITE_URL).href;
+const englishPath = Astro.url.pathname.startsWith('/en') ? Astro.url.pathname : `/en${Astro.url.pathname}`;
+const frenchPath = Astro.url.pathname.startsWith('/en') ? Astro.url.pathname.replace(/^\/en/, '') || '/' : Astro.url.pathname;
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'COST SA',
+  alternateName: 'Cameroon Oil Shipping & Trading',
+  url: SITE_URL,
+  telephone: '+237 233 42 09 49',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Rue Tokoto, Bonapriso',
+    addressLocality: 'Douala',
+    addressCountry: 'CM',
+  },
+  sameAs: [
+    'https://facebook.com/cameroonshipping',
+    'https://tiktok.com/@cameroonshipping',
+    // LinkedIn volontairement omis jusqu’à confirmation de l’URL exacte.
+  ],
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href={canonicalURL} />
+<link rel="alternate" hreflang="fr" href={new URL(frenchPath, SITE_URL).href} />
+<link rel="alternate" hreflang="en" href={new URL(englishPath, SITE_URL).href} />
+<link rel="alternate" hreflang="x-default" href={new URL(frenchPath, SITE_URL).href} />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_GB'} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={absoluteImageUrl} />
+<meta property="og:site_name" content="COST SA" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absoluteImageUrl} />
+<script type="application/ld+json" set:html={JSON.stringify(organization)} />
