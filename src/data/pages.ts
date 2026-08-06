@@ -51,9 +51,6 @@ const pages = {
       phoneLabel: 'Téléphone', 
       addressLabel: 'Adresse', 
       socialLabel: 'Réseaux sociaux',
-      // Ajout des données unifiées
-      phoneNumber: '+237 233 42 09 49',
-      whatsapp: '+237 699 57 52 08',
       socialLinks: [
         { name: 'Facebook', url: 'https://www.facebook.com/share/1CJN8h6WEB/?mibextid=wwXIfr' },
         { name: 'LinkedIn', url: 'https://www.linkedin.com/company/camerounoilshippingtrading/about/' } // CORRECTION : LinkedIn au lieu de Linkedln
@@ -99,8 +96,6 @@ const pages = {
       phoneLabel: 'Phone', 
       addressLabel: 'Address', 
       socialLabel: 'Social media',
-      phoneNumber: '+237 233 42 09 49',
-      whatsapp: '+237 699 57 52 08',
       socialLinks: [
         { name: 'Facebook', url: 'https://www.facebook.com/share/1CJN8h6WEB/?mibextid=wwXIfr' },
         { name: 'LinkedIn', url: 'https://www.linkedin.com/company/camerounoilshippingtrading/about/' }

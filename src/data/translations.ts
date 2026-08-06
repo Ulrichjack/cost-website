@@ -1,3 +1,8 @@
+export const contactNumbers = {
+  phone: '+237 233 437 669',
+  phoneMobile: '+237 699 57 52 08',
+} as const;
+
 export const translations = {
   fr: {
     meta: {
@@ -63,15 +68,15 @@ export const translations = {
       eyebrow: 'Préparons votre prochaine opération',
       title: 'Un besoin maritime ou portuaire au Cameroun ?',
       text: 'Présentez-nous votre escale ou votre cargaison. Notre équipe vous répond avec une solution claire et adaptée.',
-      button: 'Appeler le +237 233 42 09 49',
+      button: `Appeler le ${contactNumbers.phone}`,
     },
     footer: {
       description: 'Votre partenaire local pour des opérations maritimes sûres, fluides et transparentes.',
       navigation: 'Navigation',
       office: 'Siège social',
       address: 'Rue Tokoto, Bonapriso\nDouala, Cameroun',
-      phone: '+237 233 42 09 49',
-      phone1: '+237 699 575 208',
+      phone: contactNumbers.phone,
+      phoneMobile: contactNumbers.phoneMobile,
       rights: '© 2026 COST SA. Tous droits réservés.',
     },
     serviceTransport: {
@@ -135,11 +140,11 @@ export const translations = {
     },
     cta: {
       eyebrow: 'Let’s prepare your next operation', title: 'Planning a maritime or port operation in Cameroon?',
-      text: 'Tell us about your port call or cargo. Our team will respond with a clear, tailored solution.', button: 'Call +237 233 42 09 49',
+      text: 'Tell us about your port call or cargo. Our team will respond with a clear, tailored solution.', button: `Call ${contactNumbers.phone}`,
     },
     footer: {
       description: 'Your local partner for safe, seamless and transparent maritime operations.', navigation: 'Navigation', office: 'Head office',
-      address: 'Tokoto Street, Bonapriso\nDouala, Cameroon', phone: '+237 233 42 09 49', rights: '© 2026 COST SA. All rights reserved.',
+      address: 'Tokoto Street, Bonapriso\nDouala, Cameroon', phone: contactNumbers.phone, phoneMobile: contactNumbers.phoneMobile, rights: '© 2026 COST SA. All rights reserved.',
     },
     serviceTransport: {
       meta: { title: 'Maritime transport & chartering | COST SA', description: 'Maritime transport and vessel chartering solutions in Cameroon and the Gulf of Guinea.' },

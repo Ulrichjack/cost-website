@@ -5,6 +5,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = translations[lang];
 const base = lang === 'fr' ? '' : '/en';
+const phoneHref = (phone: string) => `tel:${phone.replace(/\D/g, '')}`;
 const socialLinks = [
   {
     label: 'Facebook',
@@ -38,8 +39,8 @@ const socialLinks = [
     <address class="footer-contact">
       <h2>{t.footer.office}</h2>
       <p>{t.footer.address}</p>
-      <a href="tel:(+237) 233 437 669">{t.footer.phone}</a><br />
-      <!-- <a href="tel:(+237) 699 575 208">{t.footer.phone1}</a> -->
+      <a href={phoneHref(t.footer.phone)}>{t.footer.phone}</a><br />
+      <a href={phoneHref(t.footer.phoneMobile)}>{t.footer.phoneMobile}</a>
     </address>
     <div class="footer-socials reveal">
       <h2>{lang === 'fr' ? 'Réseaux sociaux' : 'Social media'}</h2>
