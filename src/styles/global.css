@@ -218,6 +218,10 @@ body.gallery-is-open { overflow: hidden; }
 }
 
 @media (max-width: 600px) {
+  .hero::before { 
+    animation: none !important; 
+    transform: none !important; 
+  }
   .header-actions { gap: 1rem; }
   .hero { padding: 7rem 0 6rem; }
   .services-grid { grid-template-columns: 1fr; }
@@ -252,4 +256,32 @@ body.gallery-is-open { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal, .zoom-in, .hero-content > *, .hero-badge-animate, .hero::before { opacity: 1; transform: none; animation: none; }
+}
+/* BOUTON WHATSAPP FLOTTANT */
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 30px;
+  right: 30px;
+  background-color: #25d366;
+  color: #FFF;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.6);
+  color: #FFF;
+}
+.whatsapp-float svg {
+  width: 34px;
+  height: 34px;
 }

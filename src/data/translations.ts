@@ -71,6 +71,7 @@ export const translations = {
       office: 'Siège social',
       address: 'Rue Tokoto, Bonapriso\nDouala, Cameroun',
       phone: '+237 233 42 09 49',
+      phone1: '+237 699 575 208',
       rights: '© 2026 COST SA. Tous droits réservés.',
     },
     serviceTransport: {

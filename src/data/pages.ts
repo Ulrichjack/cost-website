@@ -42,9 +42,23 @@ const pages = {
       values: ['Fiabilité', 'Expertise maritime', 'Réactivité', 'Conformité'],
     },
     zones: { title: 'Nos zones d’intervention', description: 'Douala, Kribi, Limbé et les corridors de la zone CEMAC.', heading: 'Une présence au plus près des opérations', ports: [{ city: 'Douala', text: 'Siège à Bonapriso et interventions au principal port polyvalent du Cameroun.' }, { city: 'Kribi', text: 'Accompagnement des escales et projets liés au port en eau profonde.' }, { city: 'Limbé', text: 'Interventions adaptées aux activités énergétiques et maritimes de la façade ouest.' }, { city: 'Zone CEMAC', text: 'Coordination des flux de transit vers les pays de l’hinterland.' }] },
-    gallery: { title: 'Galerie', description: 'Les opérations et équipes COST en images.', heading: 'Nos opérations sur le terrain', notice: 'Cette galerie accueillera les images officielles des opérations, des équipes et des installations COST.', items: ['Opérations maritimes', 'Escale portuaire', 'Manutention', 'Projets en zone CEMAC'] },
-    contact: { title: 'Contact', description: 'Contactez COST pour votre prochaine opération maritime ou portuaire au Cameroun.', heading: 'Parlons de votre prochaine opération', text: 'Expliquez-nous votre besoin. Notre équipe vous orientera vers la solution maritime, portuaire ou douanière adaptée.', phoneLabel: 'Téléphone', addressLabel: 'Adresse', socialLabel: 'Réseaux sociaux' },
-  },
+    gallery: { title: 'Galerie', description: 'Les opérations et équipes COST en images.', heading: 'Nos opérations sur le terrain', notice: 'Cette galerie accueillera les images officielles des opérations, des équipes et des installations COST.', items: ['Opérations maritimes', 'Escale portuaire', 'Manutention'] },
+    contact: { 
+      title: 'Contact', 
+      description: 'Contactez COST pour votre prochaine opération maritime ou portuaire au Cameroun.', 
+      heading: 'Parlons de votre prochaine opération', 
+      text: 'Expliquez-nous votre besoin. Notre équipe vous orientera vers la solution maritime, portuaire ou douanière adaptée.', 
+      phoneLabel: 'Téléphone', 
+      addressLabel: 'Adresse', 
+      socialLabel: 'Réseaux sociaux',
+      // Ajout des données unifiées
+      phoneNumber: '+237 233 42 09 49',
+      whatsapp: '+237 699 57 52 08',
+      socialLinks: [
+        { name: 'Facebook', url: 'https://www.facebook.com/share/1CJN8h6WEB/?mibextid=wwXIfr' },
+        { name: 'LinkedIn', url: 'https://www.linkedin.com/company/camerounoilshippingtrading/about/' } // CORRECTION : LinkedIn au lieu de Linkedln
+      ]
+    },  },
   en: {
     labels: { services: 'Our services', discover: 'Discover this service', consultation: 'Request a consultation', contact: 'Talk to our team' },
     servicePages: {
@@ -77,7 +91,21 @@ const pages = {
     about: { title: 'About COST', description: 'Maritime and port expertise rooted in Cameroon.', heading: 'A local partner for maritime operations', paragraphs: ['COST — Cameroon Oil Shipping & Trading — supports shipowners, charterers and energy-sector operators throughout their maritime and port operations in Central Africa.', 'Our role is to simplify port calls, coordinate stakeholders and provide transparent operational reporting from preparation through completion.'], values: ['Reliability', 'Maritime expertise', 'Responsiveness', 'Compliance'] },
     zones: { title: 'Our locations', description: 'Douala, Kribi, Limbe and CEMAC corridors.', heading: 'Close to every operation', ports: [{ city: 'Douala', text: 'Bonapriso headquarters and operations at Cameroon’s main multipurpose port.' }, { city: 'Kribi', text: 'Port call and project support at the deep-water port.' }, { city: 'Limbe', text: 'Services tailored to energy and maritime operations on the western coast.' }, { city: 'CEMAC region', text: 'Transit coordination to landlocked hinterland markets.' }] },
     gallery: { title: 'Gallery', description: 'COST operations and teams in pictures.', heading: 'Our field operations', notice: 'This gallery will feature official images of COST operations, teams and facilities.', items: ['Maritime operations', 'Port calls', 'Cargo handling', 'COST team', 'Douala offices', 'CEMAC projects'] },
-    contact: { title: 'Contact', description: 'Contact COST about your next maritime or port operation in Cameroon.', heading: 'Let’s discuss your next operation', text: 'Tell us what you need. Our team will guide you towards the right maritime, port or customs solution.', phoneLabel: 'Phone', addressLabel: 'Address', socialLabel: 'Social media' },
+     contact: { 
+      title: 'Contact', 
+      description: 'Contact COST about your next maritime or port operation in Cameroon.', 
+      heading: 'Let’s discuss your next operation', 
+      text: 'Tell us what you need. Our team will guide you towards the right maritime, port or customs solution.', 
+      phoneLabel: 'Phone', 
+      addressLabel: 'Address', 
+      socialLabel: 'Social media',
+      phoneNumber: '+237 233 42 09 49',
+      whatsapp: '+237 699 57 52 08',
+      socialLinks: [
+        { name: 'Facebook', url: 'https://www.facebook.com/share/1CJN8h6WEB/?mibextid=wwXIfr' },
+        { name: 'LinkedIn', url: 'https://www.linkedin.com/company/camerounoilshippingtrading/about/' }
+      ]
+    },
   },
 } as const;
 

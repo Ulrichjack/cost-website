@@ -60,11 +60,23 @@ const alternate = lang === 'fr'
 <script>
   const button = document.querySelector<HTMLButtonElement>('.burger-menu');
   const menu = document.querySelector<HTMLElement>('#mobile-nav');
+  
+  // Ouverture/Fermeture du menu burger
   button?.addEventListener('click', () => {
     const opening = button.getAttribute('aria-expanded') !== 'true';
     button.setAttribute('aria-expanded', String(opening));
     button.classList.toggle('is-active', opening);
     menu?.classList.toggle('is-open', opening);
     menu?.setAttribute('aria-hidden', String(!opening));
+  });
+
+  // CORRECTION : Fermeture automatique au clic sur un lien du menu
+  document.querySelectorAll('#mobile-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      button?.setAttribute('aria-expanded', 'false');
+      button?.classList.remove('is-active');
+      menu?.classList.remove('is-open');
+      menu?.setAttribute('aria-hidden', 'true');
+    });
   });
 </script>

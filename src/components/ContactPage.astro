@@ -13,6 +13,21 @@ const page = getPageContent(lang).contact;
 <BaseLayout lang={lang} title={`${page.title} | COST SA`} description={page.description}>
   <Header lang={lang} slot="header" />
   <PageHeader title={page.title} description={page.description} />
-  <section class="content-section"><div class="container contact-grid"><div class="reveal"><h2>{page.heading}</h2><p class="intro-copy">{page.text}</p></div><address class="contact-card zoom-in"><div><strong>{page.phoneLabel}</strong><a href="tel:+237233420949">+237 66 99 77 22</a></div><div><strong>{page.addressLabel}</strong><p>Rue Tokoto, Bonapriso<br />Douala, Cameroun</p></div><div><strong>{page.socialLabel}</strong><a href="https://www.facebook.com/share/1CJN8h6WEB/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a><a href="https://www.linkedin.com/company/camerounoilshippingtrading/about/" target="_blank" rel="noopener">Linkedln</a></div></address></div></section>
+  <address class="contact-card zoom-in">
+    <div>
+      <strong>{page.phoneLabel}</strong>
+      <a href="tel:+237233420949">{page.phoneNumber}</a>
+    </div>
+    <div>
+      <strong>{page.addressLabel}</strong>
+      <p>Rue Tokoto, Bonapriso<br />Douala, Cameroun</p>
+    </div>
+    <div>
+      <strong>{page.socialLabel}</strong>
+      {page.socialLinks.map((link) => (
+        <a href={link.url} target="_blank" rel="noopener">{link.name}</a>
+      ))}
+    </div>
+</address>
   <Footer lang={lang} slot="footer" />
 </BaseLayout>

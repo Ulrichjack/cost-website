@@ -38,7 +38,8 @@ const socialLinks = [
     <address class="footer-contact">
       <h2>{t.footer.office}</h2>
       <p>{t.footer.address}</p>
-      <a href="tel:+237233420949">{t.footer.phone}</a>
+      <a href="tel:(+237) 233 437 669">{t.footer.phone}</a><br />
+      <!-- <a href="tel:(+237) 699 575 208">{t.footer.phone1}</a> -->
     </address>
     <div class="footer-socials reveal">
       <h2>{lang === 'fr' ? 'Réseaux sociaux' : 'Social media'}</h2>
@@ -47,11 +48,11 @@ const socialLinks = [
       {socialLinks.map((link, index) => (
         <a class="social-link" style={`--delay: ${index * 90}ms`} href={link.href} rel="me noopener noreferrer" target="_blank" aria-label={link.label}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={link.svg} />
-          <span><strong>{link.label}</strong><small>@cameroonshipping</small></span>
+          <span><strong>{link.label}</strong></span>
         </a>
       ))}
       </div>
     </div>
   </div>
-  <div class="container footer-bottom"><p>{t.footer.rights}</p><p>@cameroonshipping</p></div>
+  <div class="container footer-bottom"><p>{t.footer.rights}</p></div>
 </footer>
