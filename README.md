@@ -22,15 +22,15 @@ npm run preview
 - `src/pages/en/` : routes anglaises correspondantes.
 - `src/styles/global.css` : palette et styles globaux COST.
 - `src/scripts/main.ts` : animations au scroll, compteurs et respect de `prefers-reduced-motion`.
-- `src/data/gallery.ts` : chemins des six images de la galerie.
+- `src/data/gallery.ts` : chemins des huit images de la galerie.
 
 ### Ajouter les images de la galerie
 
 Dépose les fichiers dans `public/images/gallery/` avec ces noms :
 
-`01-operations-maritimes.jpg`, `02-escale-portuaire.jpg`, `03-manutention.jpg`, `04-equipe-cost.jpg`, `05-bureaux-douala.jpg`, `06-projets-cemac.jpg`.
+`01-operations-maritimes.webp`, `02-escale-portuaire.webp`, `03-manutention.webp`, `04-transport-routier.webp`, `05-installations-petrolieres.webp`, `06-terminal-conteneurs.webp`, `07-operations-portuaires.webp`, `08-logistique-cemac.webp`.
 
-La galerie affiche automatiquement la photo si elle existe, sinon elle conserve le placeholder numéroté.
+La galerie affiche automatiquement les huit photos, avec un placeholder numéroté si une image ne peut pas être chargée.
 
 Les six services sont regroupés en trois pôles :
 
