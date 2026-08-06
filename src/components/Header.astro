@@ -19,7 +19,7 @@ const alternate = lang === 'fr'
 <header class="main-header">
   <div class="container header-container">
     <a href={`${base}/`} class="logo-link" aria-label="Accueil COST">
-      <span class="brand-mark header-brand-mark" aria-hidden="true"><img src="/images/logo.jpg" alt="" /></span>
+      <span class="brand-mark header-brand-mark" aria-hidden="true"><img src="/images/logo-optimized.jpg" alt="" width="144" height="144" /></span>
       <span class="sr-only">COST SA</span>
     </a>
     <nav class="nav-desktop" aria-label="Navigation principale">
@@ -44,7 +44,7 @@ const alternate = lang === 'fr'
       <button class="burger-menu" aria-label={t.nav.menuOpen} aria-expanded="false" aria-controls="mobile-nav"><span></span><span></span><span></span></button>
     </div>
   </div>
-  <nav id="mobile-nav" class="nav-mobile" aria-hidden="true">
+  <nav id="mobile-nav" class="nav-mobile" aria-hidden="true" hidden>
     <ul>
       <li><a href={`${base}/`} class:list={['mobile-nav-link', isRoute('/') && 'is-current']} aria-current={isRoute('/') ? 'page' : undefined}>{t.nav.home}</a></li>
       <li><a href={`${base}/a-propos`} class:list={['mobile-nav-link', isRoute('/a-propos') && 'is-current']} aria-current={isRoute('/a-propos') ? 'page' : undefined}>{t.nav.about}</a></li>
@@ -68,6 +68,7 @@ const alternate = lang === 'fr'
     button.classList.toggle('is-active', opening);
     menu?.classList.toggle('is-open', opening);
     menu?.setAttribute('aria-hidden', String(!opening));
+    if (menu) menu.hidden = !opening;
   });
 
   // CORRECTION : Fermeture automatique au clic sur un lien du menu
@@ -77,6 +78,7 @@ const alternate = lang === 'fr'
       button?.classList.remove('is-active');
       menu?.classList.remove('is-open');
       menu?.setAttribute('aria-hidden', 'true');
+      if (menu) menu.hidden = true;
     });
   });
 </script>
