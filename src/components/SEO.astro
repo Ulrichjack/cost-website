@@ -2,7 +2,8 @@
 import type { Lang } from '../data/i18n';
 import { translations } from '../data/i18n';
 interface Props { title: string; description: string; image?: string; canonicalURL?: string; lang?: Lang }
-const SITE_URL = 'https://www.cost-cameroon.com';
+// Défini par `site` dans astro.config.mjs, lui-même surchargé par SITE_URL au build.
+const SITE_URL = Astro.site?.href.replace(/\/$/, '') ?? 'https://www.cost237.com';
 const { title, description, image = '/images/hero-bg.webp', canonicalURL = new URL(Astro.url.pathname, SITE_URL).href, lang = 'fr' } = Astro.props;
 const t = translations[lang];
 const absoluteImageUrl = new URL(image, SITE_URL).href;

@@ -1,0 +1,72 @@
+# Configuration Docker Compose du site vitrine COST (Astro + Nginx)
+#
+# RÉSEAUX :
+# - dokploy-network : réseau Traefik pour le reverse proxy, le routing HTTP/HTTPS
+#   et les certificats SSL (créé automatiquement par Dokploy)
+#
+# ENVIRONNEMENTS (dev + prod) :
+# Le même fichier sert les deux environnements Dokploy. Les valeurs par défaut
+# = PRODUCTION, donc la prod fonctionne sans configuration supplémentaire
+# (www.cost237.com + cost237.com).
+# Sur un environnement DEV, définir dans Settings > Environment :
+#   SITE_HOST=dev.cost237.com
+#   SITE_HOST_ALT=dev.cost237.com   (sinon le défaut = apex prod)
+#   SITE_URL=https://dev.cost237.com
+#
+# DOMAINE CANONIQUE : www.cost237.com (l'apex redirige vers www).
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # URL canonique du site (balises SEO, données structurées) selon l'environnement
+        SITE_URL: ${SITE_URL:-https://www.cost237.com}
+    container_name: cost-web
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=dokploy-network"
+
+      # Router HTTP → HTTPS (middleware inline autonome, pas de dépendance @file)
+      - "traefik.http.routers.cost-http.rule=Host(`${SITE_HOST:-www.cost237.com}`) || Host(`${SITE_HOST_ALT:-cost237.com}`)"
+      - "traefik.http.routers.cost-http.entrypoints=web"
+      - "traefik.http.routers.cost-http.middlewares=cost-https-redirect"
+      - "traefik.http.routers.cost-http.service=cost-web-service"
+      - "traefik.http.middlewares.cost-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.cost-https-redirect.redirectscheme.permanent=true"
+
+      # Router HTTPS — SITE_HOST : prod par défaut, surchargé en dev via Dokploy
+      - "traefik.http.routers.cost-web.rule=Host(`${SITE_HOST:-www.cost237.com}`) || Host(`${SITE_HOST_ALT:-cost237.com}`)"
+      - "traefik.http.routers.cost-web.entrypoints=websecure"
+      - "traefik.http.routers.cost-web.tls=true"
+      - "traefik.http.routers.cost-web.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.cost-web.middlewares=cost-www-redirect,cost-web-security,cost-web-ratelimit"
+      - "traefik.http.routers.cost-web.service=cost-web-service"
+      - "traefik.http.services.cost-web-service.loadbalancer.server.port=80"
+
+      # Redirection apex → www : seul endroit où le domaine est écrit en dur, la
+      # regex ne peut pas être générique dans ce sens. Sans effet sur un
+      # sous-domaine de dev, qui ne correspond pas au motif.
+      - "traefik.http.middlewares.cost-www-redirect.redirectregex.regex=^https://cost237\\.com/(.*)"
+      - "traefik.http.middlewares.cost-www-redirect.redirectregex.replacement=https://www.cost237.com/$${1}"
+      - "traefik.http.middlewares.cost-www-redirect.redirectregex.permanent=true"
+
+      # Security headers at edge (Traefik)
+      - "traefik.http.middlewares.cost-web-security.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.cost-web-security.headers.referrerPolicy=strict-origin-when-cross-origin"
+      - "traefik.http.middlewares.cost-web-security.headers.customFrameOptionsValue=SAMEORIGIN"
+
+      # Basic rate limiting to reduce scan noise
+      - "traefik.http.middlewares.cost-web-ratelimit.ratelimit.average=120"
+      - "traefik.http.middlewares.cost-web-ratelimit.ratelimit.burst=240"
+      - "traefik.http.middlewares.cost-web-ratelimit.ratelimit.period=1s"
+
+networks:
+  dokploy-network:
+    external: true

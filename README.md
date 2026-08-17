@@ -11,6 +11,19 @@ npm run build
 npm run preview
 ```
 
+## Docker
+
+```sh
+docker compose up --build
+```
+
+L'override local publie Nginx sur `http://localhost:8080`. En production, `docker-compose.yml` connecte le service au réseau externe `dokploy-network` et configure Traefik pour `www.cost237.com` (domaine canonique) et `cost237.com`, qui redirige vers le www.
+
+Le domaine n'est écrit nulle part dans `nginx.conf` : il se paramètre par variables d'environnement Dokploy, dont les valeurs par défaut correspondent à la production.
+
+- `SITE_URL` : URL canonique injectée dans le build Astro (balises SEO, données structurées).
+- `SITE_HOST` / `SITE_HOST_ALT` : hôtes servis par le routeur Traefik.
+
 ## Architecture
 
 - `src/layouts/BaseLayout.astro` : document HTML, SEO, préchargement du hero et structure sémantique.
@@ -41,7 +54,6 @@ Les six services sont regroupés en trois pôles :
 ## Informations à confirmer avant publication
 
 - activité éventuelle d’achat/revente physique de produits pétroliers ;
-- domaine officiel (le code utilise provisoirement `cost-cameroon.com`) ;
 - URL exacte de la page LinkedIn ;
 - descriptions contractuelles et périmètre précis des six services ;
 - photos officielles des opérations, équipes et bureaux ;

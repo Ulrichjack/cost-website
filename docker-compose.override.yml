@@ -1,0 +1,16 @@
+# Automatically used for local Docker Compose runs. Dokploy should use only
+# docker-compose.yml in production.
+services:
+  web:
+    ports:
+      - "8080:80"
+    networks:
+      - default
+    labels:
+      - "traefik.enable=false"
+
+networks:
+  dokploy-network:
+    external: false
+    name: cost-local
+
