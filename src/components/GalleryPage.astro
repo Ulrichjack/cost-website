@@ -35,8 +35,13 @@ const base = lang === 'fr' ? '' : '/en';
     <div class="gallery-lightbox-backdrop" data-gallery-close></div>
     <div class="gallery-lightbox-panel">
       <button class="gallery-lightbox-close" type="button" data-gallery-close aria-label={lang === 'fr' ? 'Fermer l’image' : 'Close image'}>×</button>
+      <button class="gallery-lightbox-nav gallery-lightbox-prev" type="button" data-gallery-prev aria-label={lang === 'fr' ? 'Image précédente' : 'Previous image'}>‹</button>
       <img id="gallery-lightbox-image" src="" alt="" />
-      <p id="gallery-lightbox-title"></p>
+      <button class="gallery-lightbox-nav gallery-lightbox-next" type="button" data-gallery-next aria-label={lang === 'fr' ? 'Image suivante' : 'Next image'}>›</button>
+      <div class="gallery-lightbox-caption" aria-live="polite">
+        <p id="gallery-lightbox-title"></p>
+        <span id="gallery-lightbox-counter"></span>
+      </div>
     </div>
   </div>
   <Footer lang={lang} slot="footer" />
@@ -54,8 +59,25 @@ const base = lang === 'fr' ? '' : '/en';
   const lightbox = document.querySelector<HTMLElement>('#gallery-lightbox');
   const lightboxImage = document.querySelector<HTMLImageElement>('#gallery-lightbox-image');
   const lightboxTitle = document.querySelector<HTMLElement>('#gallery-lightbox-title');
+  const lightboxCounter = document.querySelector<HTMLElement>('#gallery-lightbox-counter');
   const closeButton = document.querySelector<HTMLButtonElement>('.gallery-lightbox-close');
+  const previousButton = document.querySelector<HTMLButtonElement>('[data-gallery-prev]');
+  const nextButton = document.querySelector<HTMLButtonElement>('[data-gallery-next]');
+  const triggers = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-gallery-open]'));
   let lastTrigger: HTMLButtonElement | null = null;
+  let currentIndex = 0;
+  let touchStartX = 0;
+
+  const showSlide = (index: number) => {
+    if (!lightboxImage || !lightboxTitle || !lightboxCounter || triggers.length === 0) return;
+    currentIndex = (index + triggers.length) % triggers.length;
+    const image = triggers[currentIndex].querySelector<HTMLImageElement>('img');
+    if (!image) return;
+    lightboxImage.src = image.currentSrc || image.src;
+    lightboxImage.alt = image.alt;
+    lightboxTitle.textContent = image.alt;
+    lightboxCounter.textContent = `${currentIndex + 1} / ${triggers.length}`;
+  };
 
   const closeLightbox = () => {
     if (!lightbox) return;
@@ -64,22 +86,34 @@ const base = lang === 'fr' ? '' : '/en';
     lastTrigger?.focus();
   };
 
-  document.querySelectorAll<HTMLButtonElement>('[data-gallery-open]').forEach((trigger) => {
+  triggers.forEach((trigger, index) => {
     trigger.addEventListener('click', () => {
       const image = trigger.querySelector<HTMLImageElement>('img');
       if (!image || !image.naturalWidth || !lightbox || !lightboxImage || !lightboxTitle) return;
       lastTrigger = trigger;
-      lightboxImage.src = image.currentSrc || image.src;
-      lightboxImage.alt = image.alt;
-      lightboxTitle.textContent = image.alt;
+      showSlide(index);
       lightbox.hidden = false;
       document.body.classList.add('gallery-is-open');
       closeButton?.focus();
     });
   });
 
+  previousButton?.addEventListener('click', () => showSlide(currentIndex - 1));
+  nextButton?.addEventListener('click', () => showSlide(currentIndex + 1));
   document.querySelectorAll<HTMLElement>('[data-gallery-close]').forEach((element) => element.addEventListener('click', closeLightbox));
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && lightbox && !lightbox.hidden) closeLightbox();
+    if (!lightbox || lightbox.hidden) return;
+    if (event.key === 'Escape') closeLightbox();
+    if (event.key === 'ArrowLeft') showSlide(currentIndex - 1);
+    if (event.key === 'ArrowRight') showSlide(currentIndex + 1);
   });
+
+  lightbox?.addEventListener('touchstart', (event) => {
+    touchStartX = event.changedTouches[0]?.clientX ?? 0;
+  }, { passive: true });
+  lightbox?.addEventListener('touchend', (event) => {
+    const distance = (event.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
+    if (Math.abs(distance) < 50) return;
+    showSlide(currentIndex + (distance < 0 ? 1 : -1));
+  }, { passive: true });
 </script>
