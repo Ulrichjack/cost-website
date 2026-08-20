@@ -5,16 +5,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
 import PageHeader from './PageHeader.astro';
-import { galleryAssets } from '../data/gallery';
-interface Props { lang: Lang }
-const { lang } = Astro.props;
-const page = getPageContent(lang).gallery;
+import { galleryAssets, socialActionGalleryAssets } from '../data/gallery';
+interface Props { lang: Lang; variant?: 'operations' | 'social' }
+const { lang, variant = 'operations' } = Astro.props;
+const content = getPageContent(lang);
+const isSocial = variant === 'social';
+const page = isSocial ? content.socialGallery : content.gallery;
+const assets = isSocial ? socialActionGalleryAssets : galleryAssets;
+const base = lang === 'fr' ? '' : '/en';
 ---
 
-<BaseLayout lang={lang} title={`${page.title} | COST SA`} description={page.description}>
+<BaseLayout lang={lang} title={`${page.title} | COST SA`} description={page.description} image={isSocial ? socialActionGalleryAssets[0].src : undefined}>
   <Header lang={lang} slot="header" />
-  <PageHeader title={page.title} description={page.description} />
-  <section class="content-section"><div class="container"><div class="section-header reveal"><h2>{page.heading}</h2><div class="accent-line"></div><p>{page.notice}</p></div><div class="gallery-grid stagger-grid">{page.items.map((item, index) => <figure class="reveal" style={`--delay: ${index * 70}ms`}><button class="gallery-trigger" type="button" data-gallery-open aria-label={`${item} — agrandir`}><div class="gallery-media">{galleryAssets[index]?.src && <img src={galleryAssets[index].src} alt={item} loading="lazy" />}<div class="gallery-placeholder" aria-hidden="true"><span>0{index + 1}</span></div></div></button><figcaption>{item}</figcaption></figure>)}</div></div></section>
+  <PageHeader title={page.title} description={page.description} eyebrow={'eyebrow' in page ? page.eyebrow : undefined} />
+  <section class:list={['content-section', isSocial && 'social-gallery-section']}>
+    <div class="container">
+      {isSocial && <a class="gallery-back-link reveal" href={`${base}/galerie`} aria-label={page.backLabel}>← {page.backLabel}</a>}
+      <div class="section-header reveal"><h2>{page.heading}</h2><div class="accent-line"></div><p>{page.notice}</p></div>
+      {!isSocial && (
+        <a class="social-gallery-callout reveal" href={`${base}/galerie-actions-sociales`}>
+          <img src={socialActionGalleryAssets[0].src} width={socialActionGalleryAssets[0].width} height={socialActionGalleryAssets[0].height} alt="" loading="lazy" />
+          <span class="social-gallery-callout-copy"><small>{lang === 'fr' ? 'Engagement communautaire' : 'Community commitment'}</small><strong>{content.gallery.socialLinkTitle}</strong><span>{content.gallery.socialLinkText}</span><b>{content.gallery.socialLinkLabel} →</b></span>
+        </a>
+      )}
+      <div class:list={['gallery-grid', 'stagger-grid', isSocial && 'gallery-grid-social']}>{page.items.map((item, index) => <figure class="reveal" style={`--delay: ${index * 70}ms`}><button class="gallery-trigger" type="button" data-gallery-open aria-label={`${item} — ${lang === 'fr' ? 'agrandir' : 'enlarge'}`}><div class="gallery-media">{assets[index]?.src && <img src={assets[index].src} width={'width' in assets[index] ? assets[index].width : undefined} height={'height' in assets[index] ? assets[index].height : undefined} alt={item} loading="lazy" />}<div class="gallery-placeholder" aria-hidden="true"><span>0{index + 1}</span></div></div></button><figcaption>{item}</figcaption></figure>)}</div>
+    </div>
+  </section>
   <div class="gallery-lightbox" id="gallery-lightbox" role="dialog" aria-modal="true" aria-labelledby="gallery-lightbox-title" hidden>
     <div class="gallery-lightbox-backdrop" data-gallery-close></div>
     <div class="gallery-lightbox-panel">
