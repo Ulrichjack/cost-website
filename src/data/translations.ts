@@ -1,6 +1,6 @@
 export const contactNumbers = {
   phone: '+237 233 437 669',
-  phoneMobile: '+237 699 57 52 08',
+  phoneMobile: '+237 695 65 44 90',
 } as const;
 
 export const translations = {
